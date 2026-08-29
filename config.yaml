@@ -1,0 +1,18 @@
+# data
+data_dir: ./data/
+token_type: char
+batch_size: 32
+seq_len: 10
+
+# model
+d_model: 8
+num_heads: 2
+
+# training
+lr: 0.001
+wd: 0.0001
+num_epochs: 20
+
+# save
+loss_path: ./loss.png
+model_path: ./model.pth
