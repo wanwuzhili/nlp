@@ -23,10 +23,21 @@ train_iter, val_iter = load_data(
 
 # load model
 vocab_size = len(vocab)
-net = m.TransformerDecoder(
-    vocab_size=vocab_size,seq_len=configs['seq_len'], d_model=configs['d_model'],
-    num_heads=configs['num_heads']
-)
+if configs['model_type'] == 't':
+    net = m.TransformerDecoder(
+        vocab_size=vocab_size,seq_len=configs['seq_len'], d_model=configs['d_model'],
+        num_heads=configs['num_heads']
+    )
+elif configs['model_type'] == 'g':
+    net = m.GRUDecoder(
+        vocab_size, d_model=configs['d_model'],
+        hidden_size=configs['hidden_size'], num_layers=configs['num_layers']
+    )
+else:
+    net = m.RNNDecoder(
+        vocab_size, d_model=configs['d_model'],
+        hidden_size=configs['hidden_size'], num_layers=configs['num_layers']
+    )
 
 # train
 device = torch.device('cuda') if torch.cuda.is_available() else torch.device('cpu')

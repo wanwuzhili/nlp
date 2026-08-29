@@ -97,4 +97,30 @@ class TransformerDecoder(nn.Module):
         X = self.x_emb(X)
         pos = self.pos_emb(torch.arange(0, T, 1, dtype=torch.long, device=X.device))
         X += pos
-        return self.dense(self.TBlock(X)) # [B, T, V] 
+        return self.dense(self.TBlock(X)) # [B, T, V]
+
+class RNNDecoder(nn.Module):
+    def __init__(self, vocab_size, d_model, hidden_size, num_layers=1):
+        super().__init__()
+        self.x_emb = nn.Embedding(vocab_size, d_model)
+        self.rnn = nn.RNN(d_model, hidden_size, num_layers=num_layers, batch_first=True)
+        self.dense = nn.Linear(hidden_size, vocab_size)
+
+    def forward(self, X):
+        """X: [B, T]"""
+        X = self.x_emb(X) # [B, T, D]
+        Y, _ = self.rnn(X) # [B, T, H]
+        return self.dense(Y) # [B, T, V]
+
+class GRUDecoder(nn.Module):
+    def __init__(self, vocab_size, d_model, hidden_size, num_layers=1):
+        super().__init__()
+        self.x_emb = nn.Embedding(vocab_size, d_model)
+        self.gru = nn.GRU(d_model, hidden_size, num_layers=num_layers, batch_first=True)
+        self.dense = nn.Linear(hidden_size, vocab_size)
+
+    def forward(self, X):
+        """X: [B, T]"""
+        X = self.x_emb(X) # [B, T, D]
+        Y, _ = self.gru(X) # [B, T, H]
+        return self.dense(Y) # [B, T, V]

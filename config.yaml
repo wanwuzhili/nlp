@@ -5,9 +5,12 @@ batch_size: 32
 seq_len: 10
 nworker: 2
 
-# model
+# model t, g, r
+model_type: t
 d_model: 8
 num_heads: 2
+hidden_size: 128
+num_layers: 2
 
 # training
 lr: 0.001
