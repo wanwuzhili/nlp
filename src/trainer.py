@@ -18,7 +18,7 @@ def train(net:nn.Module, train_iter, val_iter, lr, wd, num_epochs, device):
         for X, Y in train_iter: # [B, T]
             X, Y = X.to(device), Y.to(device)
             Y_hat = net(X) # [B, T, V]
-            l = loss(Y_hat.reshape(-1, Y_hat.shape[-1]), Y.reshape(-1, 1))
+            l = loss(Y_hat.reshape(-1, Y_hat.shape[-1]), Y.flatten())
             updater.zero_grad()
             l.mean().backward()
             updater.step()
@@ -34,7 +34,7 @@ def train(net:nn.Module, train_iter, val_iter, lr, wd, num_epochs, device):
         for X, Y in val_iter:
             X, Y = X.to(device), Y.to(device)
             Y_hat = net(X) # [B, T, V]
-            l = loss(Y_hat.reshape(-1, Y_hat.shape[-1]), Y.reshape(-1, 1))
+            l = loss(Y_hat.reshape(-1, Y_hat.shape[-1]), Y.flatten())
             l_val += l.sum().item()
             n += Y.numel()
         val_ls.append(l_val / n)

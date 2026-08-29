@@ -6,7 +6,7 @@ def predict(net, prefix:str, vocab, seq_len, num_pred=1):
     prefix = re.sub('A-Za-z+', ' ', prefix).strip().lower()
     pre_tokens = list(prefix)
     if len(pre_tokens) < seq_len:
-        unks = ['<unk>'] * (seq_len - pre_tokens)
+        unks = ['<unk>'] * (seq_len - len(pre_tokens))
         pre_tokens += unks
     else:
         pre_tokens = pre_tokens[-seq_len:]

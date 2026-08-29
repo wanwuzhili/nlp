@@ -95,6 +95,6 @@ class TransformerDecoder(nn.Module):
         """X: [B, T]"""
         T = X.shape[-1]
         X = self.x_emb(X)
-        pos = self.pos_emb(torch.arange(0, T, 1, dtype=torch.long))
+        pos = self.pos_emb(torch.arange(0, T, 1, dtype=torch.long, device=X.device))
         X += pos
         return self.dense(self.TBlock(X)) # [B, T, V] 

@@ -17,7 +17,8 @@ corpus, vocab = load_corpus_time_machine(
     data_dir=configs['data_dir'], method=configs['token_type']
 )
 train_iter, val_iter = load_data(
-    batch_size=configs['batch_size'], corpus=corpus, seq_len=configs['seq_len']
+    batch_size=configs['batch_size'], corpus=corpus,
+    seq_len=configs['seq_len'], num_workers=configs['nworkers']
 )
 
 # load model
